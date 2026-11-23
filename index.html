@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="theme-color" content="#1f3a2e"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -88,6 +88,13 @@ nav button[aria-current="page"]{background:var(--hero);color:var(--on-hero)}
 
 .tagline{margin:18px 0 0;text-align:center;font:italic 500 21px "Cormorant Garamond",Georgia,serif;color:#e9dcc0}.style{flex:none}
 .credit{text-align:center;margin:8px 16px 0;font:italic 500 17px "Cormorant Garamond",Georgia,serif;color:var(--mute)}
+.evbar{display:flex;gap:8px;overflow-x:auto;margin-top:30px;padding:2px 2px 8px;scrollbar-width:none}
+.evbar .chip{flex:none;white-space:nowrap;max-width:210px;overflow:hidden;text-overflow:ellipsis}
+.evbar+*{margin-top:12px!important}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px}
+.thumbs button{border:1.5px solid var(--line);background:var(--field);border-radius:16px;padding:8px 6px 6px;cursor:pointer;color:var(--ink);font:500 13px "Figtree",sans-serif}
+.thumbs button[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.thumbs canvas{width:100%;height:auto;border-radius:8px;display:block;margin-bottom:6px}
 .lbl{display:block;font-size:12px;color:var(--mute);margin:0 0 4px 6px}
 select{appearance:none}
 .cal{margin:14px 0}.chead{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
@@ -123,14 +130,14 @@ a.tag{text-decoration:none;display:inline-block}input[type=file]{padding:11px 14
     </div>
   <p class="tagline">Every celebration, beautifully kept</p></header>
   <main id="view"></main>
-  <footer class="credit">Chava by Design</footer>
+  <footer class="credit">2026. Chava by Design</footer>
   
 </div>
 <nav aria-label="Sections"><div id="tabs"></div></nav>
 <div id="ov" hidden></div>
 <script>
 // Put your studio WhatsApp number here (country code, digits only) so client requests reach you.
-var STUDIO_WA="260000000000";
+var STUDIO_WA="260979430662";
 var BASE=[["Wedding","💍"],["Baby shower","🍼"],["Birthday","🎂"],["Office event","💼"],["Graduation","🎓"],["Anniversary","🥂"]];
 var PALS=[["emerald","Emerald"],["rose","Rosé"],["midnight","Midnight"]];
 var TABS=[["overview","Overview"],["schedule","Schedule"],["pledges","Pledges"],["invites","Invites"],["share","Share"]];
@@ -140,6 +147,7 @@ var SER='"Cormorant Garamond",Georgia,serif',SAN='Figtree,system-ui,sans-serif';
 var MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
 var ST=["Invited","Attending","Declined"];
 var FS=["Classic","Romantic","Modern"];
+var PAPERS=["Wedding","Official dinner","Party"];
 var STK={_:["✨","🎉","🌸","🎈","🥂","💛"],"Wedding":["💍","🤍","🕊️","💐","💒","👰"],"Baby shower":["🍼","👣","🧸","🎀","☁️","⭐"],"Birthday":["🎂","🎁","🥳","🍰","🎊","🪅"],"Office event":["💼","🏆","🎤","☕","📅","🌟"],"Graduation":["🎓","📜","🏆","📚","🎉","⭐"],"Anniversary":["💞","🌹","🕯️","🥂","✨","🤍"]};
 var TASKS={
 "Wedding":[["Set the budget and guest count",150,"High"],["Book the venue",140,"High"],["Choose caterer and book a tasting",120,"High"],["Book photographer and videographer",110,"Medium"],["Order dress and suits",90,"Medium"],["Book decorator and flowers",80,"Medium"],["Book DJ or band",75,"Medium"],["Send invitations",60,"High"],["Order the cake",45,"Medium"],["Confirm RSVPs and seating",14,"High"],["Final vendor payments",7,"High"],["Rehearsal and run-through",2,"Medium"]],
@@ -154,6 +162,15 @@ var NOW=new Date(),TODAY=ymd(NOW.getFullYear(),NOW.getMonth(),NOW.getDate());
 var S={tab:"overview",pal:0,type:"Wedding",custom:[],title:"",date:"",exp:[],sched:[],tasks:[],vendors:[],pledges:[],guests:[],sel:TODAY,cal:TODAY.slice(0,7),fmt:"pdf",sh:{guests:1,budget:1,pledges:1,tasks:1,vendors:1},inv:{c:0,fs:0,stk:[],host:"",title:"",date:"",time:"",venue:"",msg:"",dress:"",rsvp:"",want:""}};
 try{var raw=localStorage.getItem("vv-state2");if(raw){var o=JSON.parse(raw);for(var k in o)S[k]=o[k]}}catch(e){}
 function save(){try{localStorage.setItem("vv-state2",JSON.stringify(S))}catch(e){}}
+var delArm=false;var EVK=["type","title","date","exp","sched","tasks","vendors","pledges","guests","inv","sel","cal"];
+function blank(){return{type:"Wedding",title:"",date:"",exp:[],sched:[],tasks:[],vendors:[],pledges:[],guests:[],inv:{c:0,fs:0,paper:0,stk:[],host:"",title:"",date:"",time:"",venue:"",msg:"",dress:"",rsvp:"",want:""},sel:TODAY,cal:TODAY.slice(0,7)}}
+function snap(){var o={};EVK.forEach(function(k){o[k]=JSON.parse(JSON.stringify(S[k]))});return o}
+function loadSnap(o){var b=blank();EVK.forEach(function(k){S[k]=o&&o[k]!==undefined?o[k]:b[k]});S.inv=Object.assign(blank().inv,S.inv||{})}
+function ensureEvs(){if(!Array.isArray(S.evs)||!S.evs.length||!S.cur){S.cur="e1";S.evs=[{id:"e1",snap:null}]}}
+function curEv(){return S.evs.filter(function(e){return e.id===S.cur})[0]}
+function evData(e){return e.id===S.cur?S:(e.snap||blank())}
+function evBar(){return'<div class="evbar">'+S.evs.map(function(e){var d=evData(e),t=types(),em="✨";t.forEach(function(x){if(x[0]===d.type)em=x[1]});return'<button class="chip" data-a="ev" data-v="'+e.id+'" aria-pressed="'+(e.id===S.cur)+'">'+em+" "+esc(d.title||d.type)+"</button>"}).join("")+'<button class="chip" data-a="newev" style="border-style:dashed">+ New event</button></div>'}
+ensureEvs();
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function money(n){return "K"+Math.round(n).toLocaleString("en-US")}
 function val(id){var e=document.getElementById(id);return e?e.value.trim():""}
@@ -178,7 +195,7 @@ function overview(){
   h+='<section class="card"><h3>Budget</h3><p class="sub">Track what each vendor costs and what you’ve paid.</p><div class="bhead"><div class="ring" style="--p:'+pct+'"><span>'+Math.round(pct)+'%</span></div><div><dl><dt>Total</dt><dd>'+money(m.t)+'</dd><dt>Paid</dt><dd>'+money(m.p)+'</dd></dl><span class="due">'+(m.t&&!due?"Fully paid":money(due)+" due")+'</span></div></div>';
   h+='<input id="ev" placeholder="Vendor or item, e.g. Cake, Catering, Dress"><div class="row"><input id="et" type="number" inputmode="decimal" placeholder="Total cost"><input id="ep" type="number" inputmode="decimal" placeholder="Amount paid"></div><button class="btn soft" data-a="addexp">Add expense</button>';
   h+='<ul class="list">'+(S.exp.length?S.exp.map(function(e,i){return'<li><div class="main"><b>'+esc(e.v)+'</b><small>'+money(e.p)+" of "+money(e.t)+' paid</small></div><button class="x" data-a="delexp" data-i="'+i+'" aria-label="Remove">×</button></li>'}).join(""):'<li><p class="empty" style="width:100%">No expenses yet. Add your first expense above.</p></li>')+"</ul></section>";
-  return h+vendorsCard()}
+  return h+vendorsCard()+(S.evs.length>1?'<button class="lnk" data-a="delev" style="margin-bottom:18px">'+(delArm?"Tap again to delete this event":"Delete this event")+'</button>':"")}
 
 function vendorsCard(){
   var h='<section class="card"><h3>Vendors</h3><p class="sub">Caterer, decorator, DJ. Every contact in one place.</p><input id="vn" placeholder="Vendor name"><div class="row"><input id="vr" list="roles" placeholder="Role, e.g. Caterer"><input id="vp" type="tel" inputmode="tel" placeholder="Phone"></div><datalist id="roles"><option value="Caterer"><option value="Decorator"><option value="DJ"><option value="Photographer"><option value="Venue"><option value="Cake"><option value="MC"><option value="Makeup"></datalist><button class="btn soft" data-a="addv">Add vendor</button><ul class="list">';
@@ -221,11 +238,11 @@ function invites(){
   var v=S.inv,c=[0,0,0];S.guests.forEach(function(g){c[g.s]++});
   var f=function(id,ph,type){return'<input data-f="'+id+'" '+(type?'type="'+type+'" ':"")+'placeholder="'+ph+'" value="'+esc(v[id])+'">'};
   var q=encodeURIComponent(S.type+" invitation card");
-  var h='<section class="card" style="margin-top:34px"><h3>Make your invitation</h3><p class="sub">Fill in the details and the card writes itself.</p><div class="chips" style="margin-top:0">';
+  var h='<section class="card" style="margin-top:34px"><h3>Make your invitation</h3><p class="sub">Pick a paper, then fill in the details. The card writes itself.</p><p class="lbl">Choose your paper</p><div class="thumbs">'+PAPERS.map(function(n,i){return'<button data-a="paper" data-v="'+i+'" aria-pressed="'+((v.paper||0)===i)+'"><canvas id="th'+i+'" width="160" height="222"></canvas><span>'+n+"</span></button>"}).join("")+'</div><p class="lbl">Colours and lettering</p><div class="chips" style="margin-top:0">';
   CW.forEach(function(w,i){h+='<button class="chip" data-a="cw" data-v="'+i+'" aria-pressed="'+(v.c===i)+'">'+w.n+"</button>"});
   h+='</div><div class="chips" style="margin-top:0">'+FS.map(function(n,i){return'<button class="chip" data-a="fs" data-v="'+i+'" aria-pressed="'+((v.fs||0)===i)+'">'+n+"</button>"}).join("")+'</div><p class="lbl">Stickers, tap up to 6</p><div class="chips" style="margin-top:0">'+stkChips()+'</div>'+f("host","Host names, e.g. Chanda &amp; Mwila")+f("title","Event title (uses your Overview title if empty)")+'<div class="row"><div style="flex:1"><label class="lbl">Date</label>'+f("date","","date")+'</div><div style="flex:1"><label class="lbl">Time</label>'+f("time","","time")+'</div></div>'+f("venue","Venue, e.g. Intercontinental, Lusaka")+f("msg","A short message")+f("dress","Dress code (optional)")+f("rsvp","RSVP phone number")+'<canvas id="cv"></canvas>';
   h+='<div class="grid2"><button class="btn" data-a="invpng">Save as picture</button><button class="btn" data-a="invpdf">Save as PDF</button><button class="btn soft" data-a="invshare">Share on WhatsApp</button><button class="btn soft" data-a="invvid" id="vidbtn">Animated video</button></div><p class="notice">Picture, PDF and video are made on your phone, so they work offline.</p></section>';
-  h+='<section class="card"><h3>See samples, request yours</h3><p class="sub">Browse designs you love, then tell us what to customise. Needs internet.</p><div class="grid2" style="margin-bottom:0"><a class="lnk" target="_blank" rel="noopener" href="https://www.pinterest.com/search/pins/?q='+q+'">Pinterest</a><a class="lnk" target="_blank" rel="noopener" href="https://www.facebook.com/search/top?q='+q+'">Facebook</a></div><input data-f="want" style="margin-top:12px" placeholder="What did you like? e.g. gold arch, green colours" value="'+esc(v.want)+'"><a class="btn" id="wal" style="display:block;text-align:center;text-decoration:none" target="_blank" rel="noopener" href="'+waUrl()+'">Request on WhatsApp</a></section>';
+  h+='<section class="card"><h3>See samples, request yours</h3><p class="sub">See our designs on Pinterest and Facebook, then tell us what to customise. Needs internet.</p><div class="grid2" style="margin-bottom:0"><a class="lnk" target="_blank" rel="noopener" href="https://pin.it/XzulX4Eb7">Our Pinterest</a><a class="lnk" target="_blank" rel="noopener" href="https://www.facebook.com/profile.php?id=61596755584798">Our Facebook</a></div><input data-f="want" style="margin-top:12px" placeholder="What did you like? e.g. gold arch, green colours" value="'+esc(v.want)+'"><a class="btn" id="wal" style="display:block;text-align:center;text-decoration:none" target="_blank" rel="noopener" href="'+waUrl()+'">Request on WhatsApp</a></section>';
   h+='<section class="card"><h3>Guest list</h3><p class="sub">Tap a status to update an RSVP.</p><div class="stats"><div><b>'+c[1]+'</b><small>Attending</small></div><div><b>'+c[0]+'</b><small>Awaiting</small></div><div><b>'+c[2]+'</b><small>Declined</small></div></div>Name, phone and table. The Invite button opens WhatsApp with the message ready.</p>'+tblSum()+'<input id="gn" placeholder="Guest name"><div class="row"><input id="gp" type="tel" inputmode="tel" placeholder="Phone (optional)"><input id="gt" placeholder="Table" style="max-width:110px"></div><button class="btn" data-a="addg">Add guest</button><ul class="list">';
   h+=S.guests.length?S.guests.map(function(g,i){return'<li><div class="main"><b>'+esc(g.n)+'</b><small>'+(g.tb?"Table "+esc(g.tb):"No table")+(g.p?" · "+esc(g.p):"")+'</small></div><a class="tag" target="_blank" rel="noopener" href="https://wa.me/'+digits(g.p||"")+'?text='+encodeURIComponent(invMsg(g))+'">Invite</a><button class="tag'+(g.s===1?" on":"")+'" data-a="cycg" data-i="'+i+'">'+ST[g.s]+'</button><button class="x" data-a="delg" data-i="'+i+'" aria-label="Remove">×</button></li>'}).join(""):'<li><p class="empty" style="width:100%">Add your first guest to begin.</p></li>';
   return h+"</ul></section>"}
@@ -235,14 +252,14 @@ function share(){
   var h='<section class="card" style="margin-top:34px"><h3>Share &amp; export</h3><p class="sub">Choose what to include. Each part is printed on its own sheet of paper.</p><div class="chips">';
   SEC.forEach(function(s){h+='<button class="chip" data-a="sec" data-v="'+s[0]+'" aria-pressed="'+!!S.sh[s[0]]+'">'+s[1]+"</button>"});
   h+='</div><div class="chips"><button class="chip" data-a="fmt" data-v="pdf" aria-pressed="'+(S.fmt==="pdf")+'">PDF</button><button class="chip" data-a="fmt" data-v="png" aria-pressed="'+(S.fmt==="png")+'">Picture (PNG)</button></div><div class="grid2"><button class="btn" data-a="exp">Save</button><button class="btn soft" data-a="expshare">Share on WhatsApp</button></div><p class="notice">Made on your phone, no internet needed. Pick one part to send just that, or select all.</p></section>';
-  h+='<section class="card"><h3>Backup &amp; restore</h3><p class="sub">Your plan lives on this phone only. Save a backup now and then.</p><div class="grid2"><button class="btn" data-a="bksave">Save backup</button><button class="btn soft" data-a="bkcopy">Copy backup text</button></div><label class="lbl" for="bkf">Restore from a backup file</label><input id="bkf" type="file" accept=".json,application/json"><input id="bkt" placeholder="Or paste backup text here"><button class="btn soft" data-a="bkrestore">Restore from pasted text</button></section>';
+  h+='<section class="card"><h3>Appearance</h3><p class="sub">Choose how the app looks on this phone.</p><div class="chips" style="margin:0"><button class="chip" data-a="theme" data-v="light" aria-pressed="'+((S.theme||"light")==="light")+'">Light</button><button class="chip" data-a="theme" data-v="dark" aria-pressed="'+(S.theme==="dark")+'">Dark</button></div></section>';
   return h}
 
 function render(){
-  document.documentElement.setAttribute("data-pal",PALS[S.pal][0]);
+  document.documentElement.setAttribute("data-pal",PALS[S.pal][0]);document.documentElement.setAttribute("data-theme",S.theme||"light");
   document.getElementById("palname").textContent=PALS[S.pal][1];
   document.getElementById("tabs").innerHTML=TABS.map(function(t){return'<button data-a="tab" data-v="'+t[0]+'"'+(S.tab===t[0]?' aria-current="page"':"")+">"+t[1]+"</button>"}).join("");
-  document.getElementById("view").innerHTML={overview:overview,schedule:schedule,pledges:pledges,invites:invites,share:share}[S.tab]();
+  document.getElementById("view").innerHTML=evBar()+{overview:overview,schedule:schedule,pledges:pledges,invites:invites,share:share}[S.tab]();
   if(S.tab==="invites")drawCv();
   save()}
 
@@ -259,25 +276,32 @@ var FM=[
  {hf:'"Great Vibes","VV Romantic",cursive',hw:"400",hs:124,tf:'"VV Romantic",Georgia,serif',tw:"italic 500",ts:58,bf:'"VV Romantic",Georgia,serif',bw:"italic 500",sf:'"VV Romantic",Georgia,serif',up:0},
  {hf:'"VV Modern",Figtree,sans-serif',hw:"600",hs:76,tf:'"VV Modern",Figtree,sans-serif',tw:"600",ts:42,bf:'"VV Modern",Figtree,sans-serif',bw:"400",sf:'"VV Modern",Figtree,sans-serif',up:1}];
 var SLOT=[[540,250,100],[150,165,84],[930,165,84],[540,1348,84],[210,1318,76],[870,1318,76]];
-function drawInvite(c,p){
-  var W=1080,H=1500,x=c.getContext("2d"),v=S.inv,K=CW[v.c],F=FM[v.fs||0],up=function(t){return F.up?t.toUpperCase():t};c.width=W;c.height=H;
+var SLOT2=[[540,230,90],[210,215,72],[870,215,72],[540,1340,80],[210,1320,72],[870,1320,72]];
+function rr(x,X,Y,w,hh,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+hh,r);x.arcTo(X+w,Y+hh,X,Y+hh,r);x.arcTo(X,Y+hh,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath()}
+function drawInvite(c,p,ppo){
+  var W=1080,H=1500,x=c.getContext("2d"),v=S.inv,K=CW[v.c],F=FM[v.fs||0],pp=ppo!==undefined?ppo:(v.paper||0),up=function(t){return F.up?t.toUpperCase():t};c.width=W;c.height=H;
   var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,K.a);g.addColorStop(1,K.b);x.fillStyle=g;x.fillRect(0,0,W,H);
-  x.globalAlpha=clamp(p*6);x.strokeStyle=K.gold;x.lineWidth=4;arch(x,110,100,860,1300);x.stroke();x.lineWidth=1.5;arch(x,134,124,812,1252);x.stroke();
-  x.strokeRect(40,40,W-80,H-80);
-  x.textAlign="center";x.textBaseline="middle";(v.stk||[]).slice(0,6).forEach(function(e,i){var o=SLOT[i];x.font=o[2]+'px "Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji",sans-serif';x.fillText(e,o[0],o[1])});
+  x.globalAlpha=clamp(p*6);x.strokeStyle=K.gold;
+  if(pp===0){x.lineWidth=4;arch(x,110,100,860,1300);x.stroke();x.lineWidth=1.5;arch(x,134,124,812,1252);x.stroke();x.strokeRect(40,40,W-80,H-80)}
+  else if(pp===1){x.lineWidth=5;x.strokeRect(100,100,880,1300);x.lineWidth=1.5;x.strokeRect(128,128,824,1244);x.strokeRect(40,40,W-80,H-80);x.fillStyle=K.gold;[[128,128],[952,128],[128,1372],[952,1372]].forEach(function(o){x.save();x.translate(o[0],o[1]);x.rotate(Math.PI/4);x.fillRect(-10,-10,20,20);x.restore()})}
+  else{var sd=7,rnd=function(){sd=(sd*9301+49297)%233280;return sd/233280},cl=[K.gold,K.ink,"#e9a3a3","#8fbfa6","#f3d48a"];
+    for(var i=0;i<110;i++){var px=rnd()*W,py=rnd()*H,an=rnd()*3,cw=10+rnd()*16,co=cl[i%5];if(px>150&&px<930&&py>180&&py<1320)continue;x.save();x.globalAlpha=clamp(p*6)*.6;x.fillStyle=co;x.translate(px,py);x.rotate(an);x.fillRect(-cw/2,-4,cw,8);x.restore()}
+    x.lineWidth=7;x.lineCap="round";x.setLineDash([1,20]);rr(x,90,90,900,1320,70);x.stroke();x.setLineDash([]);x.lineCap="butt"}
+  x.textAlign="center";x.textBaseline="middle";var SL=pp===0?SLOT:SLOT2;
+  (v.stk||[]).slice(0,6).forEach(function(e,i){var o=SL[i];x.font=o[2]+'px "Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji",sans-serif';x.fillText(e,o[0],o[1])});
   x.textBaseline="alphabetic";x.globalAlpha=1;
   var items=[],host=v.host||"Your names",ttl=v.title||S.title||"Your celebration",dt=v.date||S.date;
-  items.push({t:"Together with their families",s:30,f:F.sf,w:"500",sp:90,col:K.gold,ls:F.up?3:0});
-  items.push({t:up(host),s:F.hs,f:F.hf,w:F.hw,sp:Math.round(F.hs*1.25),col:K.ink,ls:F.up?6:0});
-  items.push({t:"invite you to",s:30,f:F.bf,w:F.bw,sp:70,col:K.ink,ls:0});
-  items.push({t:up(ttl),s:F.ts,f:F.tf,w:F.tw,sp:100,col:K.ink,ls:F.up?4:0});
+  function I(t,s,f,w,sp,col,ls){items.push({t:t,s:s,f:f,w:w,sp:sp,col:col,ls:ls||0})}
+  if(pp===0){I("Together with their families",30,F.sf,"500",90,K.gold,F.up?3:0);I(up(host),F.hs,F.hf,F.hw,Math.round(F.hs*1.25),K.ink,F.up?6:0);I("invite you to",30,F.bf,F.bw,70,K.ink);I(up(ttl),F.ts,F.tf,F.tw,100,K.ink,F.up?4:0)}
+  else if(pp===1){I("You are cordially invited to",30,F.sf,"500",100,K.gold,F.up?3:0);I(up(ttl),Math.round(F.hs*.85),F.hf,F.hw,Math.round(F.hs*1.1),K.ink,F.up?4:0);if(v.host){I("hosted by",30,F.bf,F.bw,70,K.ink);I(up(host),F.ts,F.tf,F.tw,90,K.ink,F.up?4:0)}}
+  else{I("You’re invited!",72,F.tf,F.tw,110,K.gold);I(up(ttl),Math.round(F.hs*.85),F.hf,F.hw,Math.round(F.hs*1.1),K.ink,F.up?4:0);if(v.host)I("hosted by "+host,34,F.bf,F.bw,80,K.ink)}
   items.push({rule:1,sp:60});
-  items.push({t:dt?fmtDate(dt):"Date to be announced",s:36,f:F.sf,w:"500",sp:60,col:K.ink,ls:0});
-  if(v.time)items.push({t:"at "+v.time,s:34,f:F.sf,w:"400",sp:56,col:K.ink,ls:0});
-  if(v.venue)items.push({t:v.venue,s:36,f:F.tf,w:F.tw,sp:70,col:K.ink,ls:0});
-  if(v.msg){x.font=F.bw+" 36px "+F.bf;wrap(x,v.msg,640).slice(0,4).forEach(function(l){items.push({t:l,s:36,f:F.bf,w:F.bw,sp:52,col:K.ink,ls:0})})}
-  if(v.dress)items.push({t:"Dress code: "+v.dress,s:30,f:F.sf,w:"400",sp:70,col:K.gold,ls:0});
-  if(v.rsvp)items.push({t:"RSVP "+v.rsvp,s:32,f:F.sf,w:"500",sp:70,col:K.ink,ls:0});
+  I(dt?fmtDate(dt):"Date to be announced",36,F.sf,"500",60,K.ink);
+  if(v.time)I("at "+v.time,34,F.sf,"400",56,K.ink);
+  if(v.venue)I(v.venue,36,F.tf,F.tw,70,K.ink);
+  if(v.msg){x.font=F.bw+" 36px "+F.bf;wrap(x,v.msg,640).slice(0,4).forEach(function(l){I(l,36,F.bf,F.bw,52,K.ink)})}
+  if(v.dress)I("Dress code: "+v.dress,30,F.sf,"400",70,K.gold);
+  if(v.rsvp)I("RSVP "+v.rsvp,32,F.sf,"500",70,K.ink);
   var tot=0;items.forEach(function(i){tot+=i.sp});var y=Math.max(400,(H-tot)/2+90),q=clamp(p/.75),n=items.length;
   items.forEach(function(it,i){var a=clamp(q*(n+1)-i);if(p>=1)a=1;y+=it.sp;if(a<=0)return;x.globalAlpha=a;var yy=y+(1-a)*24;
     if(it.rule){x.strokeStyle=K.gold;x.lineWidth=2;x.beginPath();x.moveTo(W/2-150,yy-20);x.lineTo(W/2-18,yy-20);x.moveTo(W/2+18,yy-20);x.lineTo(W/2+150,yy-20);x.stroke();x.fillStyle=K.gold;x.save();x.translate(W/2,yy-20);x.rotate(Math.PI/4);x.fillRect(-7,-7,14,14);x.restore();return}
@@ -285,7 +309,7 @@ function drawInvite(c,p){
     var s2=it.s;x.font=it.w+" "+s2+"px "+it.f;while(x.measureText(it.t).width>700&&s2>24){s2-=4;x.font=it.w+" "+s2+"px "+it.f}
     x.fillStyle=it.col;x.fillText(it.t,W/2+(it.ls?it.ls/2:0),yy)});
   if("letterSpacing" in x)x.letterSpacing="0px";x.globalAlpha=1}
-var drawT;function drawCv(){var c=document.getElementById("cv");if(c)fontsReady().then(function(){drawInvite(c,1)})}
+var drawT;function drawCv(){var c=document.getElementById("cv");if(c)fontsReady().then(function(){drawInvite(c,1);var PD=[[0,1],[2,0],[1,2]],iv=S.inv,oc=iv.c,of=iv.fs;for(var i=0;i<3;i++){var t=document.getElementById("th"+i);if(t){iv.c=PD[i][0];iv.fs=PD[i][1];var big=document.createElement("canvas");drawInvite(big,1,i);t.getContext("2d").drawImage(big,0,0,160,222)}}iv.c=oc;iv.fs=of})}
 
 /* ---------- paper sheets ---------- */
 function secData(id){
@@ -313,7 +337,7 @@ function sheets(id){
     if(pg===N-1&&D.r.length){var y2=570+Math.min(R.length-pg*per,per)*74+30;x.font="600 30px "+SAN;x.fillStyle=ink;
       if(Array.isArray(D.f))D.f.forEach(function(t,j){var col=D.c[j];x.textAlign=col[2]==="l"?"left":"right";x.fillText(t,col[1],y2)});
       else{x.textAlign="left";x.fillText(D.f,110,y2)}}
-    x.textAlign="center";x.fillStyle="#9a8f80";x.font="italic 500 24px "+SER;x.fillText("Prepared with Vow & Velvet · "+fmtDate(TODAY,1)+" "+NOW.getFullYear(),620,1646);x.font="500 22px "+SAN;x.fillText("Chava by Design",620,1682);
+    x.textAlign="center";x.fillStyle="#9a8f80";x.font="italic 500 24px "+SER;x.fillText("Prepared with Vow & Velvet · "+fmtDate(TODAY,1)+" "+NOW.getFullYear(),620,1646);x.font="500 22px "+SAN;x.fillText("2026. Chava by Design",620,1682);
     out.push(c)}
   return out}
 
@@ -379,13 +403,13 @@ function stkChips(){var own=STK[S.type]||[],set=own.concat(STK._.filter(function
 function restore(str){var o;try{o=JSON.parse(str)}catch(e){}
   if(!o||!Array.isArray(o.guests)||!Array.isArray(o.exp)){alert("That doesn’t look like a Vow & Velvet backup.");return}
   if(!confirm("Replace everything on this phone with this backup?"))return;
-  var inv=o.inv;Object.assign(S,o);S.inv=Object.assign({c:0,fs:0,stk:[]},inv||{});save();render();alert("Backup restored.")}
+  var inv=o.inv;Object.assign(S,o);S.inv=Object.assign({c:0,fs:0,stk:[]},inv||{});ensureEvs();save();render();alert("Backup restored.")}
 document.addEventListener("change",function(e){if(e.target.id==="bkf"&&e.target.files[0]){var r=new FileReader();r.onload=function(){restore(String(r.result))};r.readAsText(e.target.files[0])}});
 /* ---------- events ---------- */
 document.addEventListener("input",function(e){var f=e.target.dataset&&e.target.dataset.f;if(!f)return;S.inv[f]=e.target.value;save();clearTimeout(drawT);drawT=setTimeout(drawCv,150);var w=document.getElementById("wal");if(w)w.href=waUrl()});
 document.addEventListener("click",function(ev){
   var b=ev.target.closest("[data-a]");if(!b)return;
-  var a=b.dataset.a,i=+b.dataset.i,f=function(id){var e=document.getElementById(id);if(e)e.focus()};
+  var a=b.dataset.a,i=+b.dataset.i,f=function(id){var e=document.getElementById(id);if(e)e.focus()};if(a!=="delev")delArm=false;
   if(a==="tab"){grab();S.tab=b.dataset.v;window.scrollTo(0,0)}
   else if(a==="style"){S.pal=(S.pal+1)%PALS.length}
   else if(a==="type"){grab();S.type=b.dataset.v}
@@ -406,6 +430,7 @@ document.addEventListener("click",function(ev){
   else if(a==="addg"){var g=val("gn");if(!g){f("gn");return}S.guests.push({n:g,s:0,p:val("gp"),tb:val("gt")})}
   else if(a==="addv"){var vn=val("vn");if(!vn){f("vn");return}S.vendors.push({n:vn,r:val("vr"),p:val("vp")})}
   else if(a==="delv"){S.vendors.splice(i,1)}
+  else if(a==="paper"){var pi=+b.dataset.v,PD=[[0,1],[2,0],[1,2]][pi];S.inv.paper=pi;S.inv.c=PD[0];S.inv.fs=PD[1]}
   else if(a==="fs"){S.inv.fs=+b.dataset.v}
   else if(a==="stk"){var sk=S.inv.stk||[],ix=sk.indexOf(b.dataset.v);if(ix>-1)sk.splice(ix,1);else if(sk.length<6)sk.push(b.dataset.v);S.inv.stk=sk}
   else if(a==="starter"){var TL=TASKS[S.type]||TASKS._,have={};S.tasks.forEach(function(t){have[t.k]=1});TL.forEach(function(r){if(have[r[0]])return;var dd="";if(S.date){var q=S.date.split("-"),z=new Date(+q[0],+q[1]-1,+q[2]-r[1]);dd=ymd(z.getFullYear(),z.getMonth(),z.getDate())}S.tasks.push({k:r[0],o:"",p:"",d:dd,pr:r[2],n:"",x:0})})}
@@ -420,7 +445,11 @@ document.addEventListener("click",function(ev){
   else if(a==="invshare"){invoke("png",true);return}
   else if(a==="invvid"){recVideo();return}
   else if(a==="sec"){S.sh[b.dataset.v]=S.sh[b.dataset.v]?0:1}
+  else if(a==="theme"){S.theme=b.dataset.v}
   else if(a==="fmt"){S.fmt=b.dataset.v}
+  else if(a==="ev"){grab();curEv().snap=snap();var nx=S.evs.filter(function(e){return e.id===b.dataset.v})[0];loadSnap(nx.snap);S.cur=nx.id}
+  else if(a==="newev"){grab();curEv().snap=snap();var nid="e"+Date.now().toString(36);S.evs.push({id:nid,snap:null});loadSnap(null);S.cur=nid;S.tab="overview";window.scrollTo(0,0)}
+  else if(a==="delev"){if(!delArm){delArm=true;render();return}delArm=false;S.evs=S.evs.filter(function(e){return e.id!==S.cur});var f2=S.evs[0];loadSnap(f2.snap);S.cur=f2.id;window.scrollTo(0,0)}
   else if(a==="exp"){exportSheets(false);return}
   else if(a==="expshare"){exportSheets(true);return}
   render()});
