@@ -1,10 +1,6 @@
-// Change the version number each time you update the app so phones fetch the new files.
-var CACHE="vow-velvet-v4";
-var FILES=["./","./index.html","./manifest.json","./icon-192.png","./icon-512.png"];
-self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(FILES)}).then(function(){return self.skipWaiting()}))});
-self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(k){return Promise.all(k.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});
-self.addEventListener("fetch",function(e){
-  if(e.request.method!=="GET")return;
-  e.respondWith(caches.match(e.request).then(function(hit){
-    var net=fetch(e.request).then(function(r){if(r&&(r.ok||r.type==="opaque")){var cp=r.clone();caches.open(CACHE).then(function(c){c.put(e.request,cp)})}return r}).catch(function(){return hit});
-    return hit||net}))});
+const C='vow-velvet-v12';
+const A=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./hero.jpg'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>Promise.all(A.map(u=>c.add(u).catch(()=>{})))))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(n=>n!==C).map(n=>caches.delete(n)))).then(()=>self.clients.claim()))});
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;const u=new URL(e.request.url),same=u.origin===location.origin;if(!same&&!/(^|\.)(googleapis|gstatic)\.com$/.test(u.hostname))return;
+e.respondWith(caches.match(e.request,{ignoreSearch:same}).then(r=>r||fetch(e.request).then(n=>{if(n.ok||n.type==='opaque'){const k=n.clone();caches.open(C).then(c=>c.put(e.request,k))}return n}).catch(()=>same?caches.match('./index.html'):Response.error())))});
