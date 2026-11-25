@@ -1,4 +1,4 @@
-const C='vow-velvet-v18';
+const C='chava-soiree-v20';
 const A=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./hero.jpg'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>Promise.all(A.map(u=>c.add(u).catch(()=>{})))))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(n=>n!==C).map(n=>caches.delete(n)))).then(()=>self.clients.claim()))});
