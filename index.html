@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Vow & Velvet © 2026 Chava by Design. All rights reserved. Copying, reselling or redistributing this app or its designs without written permission is not allowed. -->
 <title>Vow & Velvet</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffffff">
@@ -219,6 +220,9 @@ select{width:100%;height:50px;border:1px solid var(--line);border-radius:14px;ba
 :root[data-theme="light"][data-pal="velvet"]{--bg:#FBF7F2;--card:#fff;--ink:#2A1F25;--mute:#7a6b72;--line:#eadfe0;--field:#f7efec}
 :root[data-theme="dark"][data-pal="velvet"]{--hero:#c25a78;--hero2:#d98aa0}
 .ccl{display:flex;flex-wrap:wrap;gap:8px;max-height:260px;overflow:auto;margin-top:10px}
+.pv p{margin:10px 0;font-size:14px;line-height:1.5}.pv .cp{color:var(--mute);font-size:12px}.mbox{max-height:90vh;overflow:auto}.wcp{display:block;margin-top:14px;font:500 11px "Plus Jakarta Sans",sans-serif;color:var(--mute);font-style:normal}
+@media(min-width:720px){.wrap{max-width:760px}.hl .arch{max-width:520px;margin-left:auto;margin-right:auto}.tiles{gap:14px}#cv{max-width:440px;margin-left:auto;margin-right:auto;display:block}.thumbs{max-width:560px}}
+@media(min-width:1024px){.wrap:has(.hg){max-width:1120px}.hg{display:grid;grid-template-columns:minmax(380px,460px) 1fr;gap:32px;align-items:start}.hl{position:sticky;top:16px}.hl .arch{max-width:none;margin:0 0 14px}.hr .tiles{gap:16px}.hr .tile{padding:22px 6px 18px}.hr .vvt{margin-top:26px}}
 </style>
 </head>
 <body>
@@ -234,7 +238,7 @@ select{width:100%;height:50px;border:1px solid var(--line);border-radius:14px;ba
     </div>
 </header>
   <main id="view"></main>
-  <footer class="credit">2026. Chava by Design</footer>
+  <footer class="credit">© 2026 Chava by Design · All rights reserved</footer>
   
 </div>
 <nav aria-label="Sections" style="display:none"><div id="tabs"></div></nav>
@@ -262,6 +266,7 @@ function pickCcy(){var o=document.createElement("div");o.className="mdl";o.inner
  var set=function(c){if(!c)return;S.ccy=c;o.remove();save();render()};
  o.onclick=function(e){var c=e.target.closest("[data-c]");if(c)set(c.dataset.c)};
  document.getElementById("mc").onclick=function(){o.remove()};document.getElementById("mo").onclick=function(){set(document.getElementById("cx").value.trim())}}
+function privacy(){var o=document.createElement("div");o.className="mdl";o.innerHTML='<div class="mbox"><h3>Your data &amp; privacy</h3><div class="pv"><p><b>Saved only on this phone.</b> Your events, guests, phone numbers, budgets and pledges are never uploaded. No one at Chava by Design can see them.</p><p><b>It can be lost.</b> If you clear your browser data, uninstall the app, or lose or reset your phone, your data is gone and cannot be recovered.</p><p><b>Back it up.</b> Go to Share, then <i>Send event to another phone</i>, and save the file somewhere safe (WhatsApp it to yourself or keep it in Google Drive).</p><p><b>No lock yet.</b> Anyone who can open your unlocked phone can open this app, so keep your phone locked.</p><p><b>Leaves your phone only when you choose</b> to share by WhatsApp, or tap the bell, which opens Google Calendar.</p><p class="cp">© 2026 Chava by Design. All rights reserved.</p></div><div class="mrow"><button class="btn" id="mo">I understand</button></div></div>';document.body.appendChild(o);document.getElementById("mo").onclick=function(){o.remove();S.priv=1;save()}}
 function ask(title,F,ok){var o=document.createElement("div");o.className="mdl";o.innerHTML='<div class="mbox"><h3>'+esc(title)+'</h3>'+F.map(function(f,k){return'<label>'+esc(f[0])+'<input id="mf'+k+'" type="'+(f[2]||"text")+'"'+(f[2]==="number"?' inputmode="decimal" step="any"':"")+' value="'+esc(String(f[1]))+'"></label>'}).join("")+'<div class="mrow"><button class="btn soft" id="mc">Cancel</button><button class="btn" id="mo">Save</button></div></div>';document.body.appendChild(o);var a=document.getElementById("mf0");a.focus();
  document.getElementById("mc").onclick=function(){o.remove()};document.getElementById("mo").onclick=function(){var v=F.map(function(f,k){return document.getElementById("mf"+k).value});o.remove();ok(v);save();render()}}
 function rec(p){return p.r?p.a:Math.min(p.d||0,p.a)}
@@ -269,7 +274,7 @@ function bellBtn(t,d,m){return'<button class="x" data-a="bell" data-t="'+esc(t)+
 function remLink(t,d,m){var a=d.replace(/-/g,""),s,e;if(m){var q=m.split(":");s=a+"T"+q[0]+q[1]+"00";e=a+"T"+("0"+Math.min(+q[0]+1,23)).slice(-2)+q[1]+"00"}else{var n=new Date(d+"T12:00:00");n.setDate(n.getDate()+1);s=a;e=ymd(n.getFullYear(),n.getMonth(),n.getDate()).replace(/-/g,"")}return"https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(t+" - "+(S.title||S.type))+"&dates="+s+"/"+e+"&details="+encodeURIComponent("Reminder from Vow & Velvet")}
 function home(){var T=[["schedule","✅","Tasks"],["budget","💰","Budget"],["guests","👥","Guests"],["vendors","🤝","Vendors"],["invites","💌","Invitations"],["pledges","💝","Pledges"],["schedule","🗓️","Calendar"],["overview","✨","Event details"],["share","🎁","Share"]];
   var d=days(),big=d===null?"♡":d<0?"✓":d===0?"Today":d,unit=d===null?"set a date to begin":d<0?"celebrated":d===0?"is the day":d===1?"day to go":"days to go";
-  return'<section class="arch">'+CREST+(S.date&&d!==null&&d>=0?'<span class="badge"><i></i><b id="lv">'+lvText()+'</b></span>':"")+'<p class="kind">'+esc(S.type)+'</p><div class="count">'+big+'</div><p class="unit">'+unit+'</p><h2>'+esc(S.title||"Name your celebration")+'</h2>'+(S.date?'<p class="when">'+fmtDate(S.date)+'</p>':'<p class="when">Add your date in Event details</p>')+'<button class="bellp" data-a="bell" data-t="'+esc(S.title||S.type)+'" data-d="'+S.date+'">'+ico("bell",15)+' Remind me</button></section>'+remCard()+'<div class="tiles">'+T.map(function(t){return'<button class="tile" data-a="tab" data-v="'+t[0]+'"><span>'+ico(TI[t[2]],26)+'</span>'+t[2]+'</button>'}).join("")+'</div><div class="vvt"><div class="seg"><button data-a="theme" data-v="light" aria-pressed="'+((S.theme||"light")==="light")+'">'+ico("sun",16)+' Light</button><button data-a="theme" data-v="dark" aria-pressed="'+(S.theme==="dark")+'">'+ico("moon",16)+' Dark</button></div></div>'}
+  return'<div class="hg"><div class="hl"><section class="arch">'+CREST+(S.date&&d!==null&&d>=0?'<span class="badge"><i></i><b id="lv">'+lvText()+'</b></span>':"")+'<p class="kind">'+esc(S.type)+'</p><div class="count">'+big+'</div><p class="unit">'+unit+'</p><h2>'+esc(S.title||"Name your celebration")+'</h2>'+(S.date?'<p class="when">'+fmtDate(S.date)+'</p>':'<p class="when">Add your date in Event details</p>')+'<button class="bellp" data-a="bell" data-t="'+esc(S.title||S.type)+'" data-d="'+S.date+'">'+ico("bell",15)+' Remind me</button></section>'+remCard()+'</div><div class="hr"><div class="tiles">'+T.map(function(t){return'<button class="tile" data-a="tab" data-v="'+t[0]+'"><span>'+ico(TI[t[2]],26)+'</span>'+t[2]+'</button>'}).join("")+'</div><div class="vvt"><div class="seg"><button data-a="theme" data-v="light" aria-pressed="'+((S.theme||"light")==="light")+'">'+ico("sun",16)+' Light</button><button data-a="theme" data-v="dark" aria-pressed="'+(S.theme==="dark")+'">'+ico("moon",16)+' Dark</button></div></div></div></div>'}
 function tabHead(){return S.tab==="home"?"":'<button class="back" data-a="tab" data-v="home">‹ Home</button><button class="back" data-a="ptour" style="float:right">? Page tour</button>'+tabHead0()}
 function tabHead0(){var t=TH[S.tab];return t?'<div class="tabhead"><span class="bigemo">'+ic(S.tab,40)+'</span><div><h2>'+t[1]+'</h2><p>'+t[2]+'</p></div></div>':""}
 function still(){return window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches}
@@ -422,7 +427,7 @@ function share(){
 
 function render(){
   var key=S.tab+"|"+S.cur,fresh=key!==lastKey;lastKey=key;document.documentElement.setAttribute("data-pal",PALS[S.pal][0]);document.documentElement.setAttribute("data-theme",S.theme||"light");var MD=MOOD[S.theme==="dark"?1:0];document.documentElement.style.setProperty("--mood",MD[S.type]||MD._);
-  var mn=document.getElementById("mn");mn.hidden=!MN;mn.innerHTML=TABS.map(function(t){return'<button data-a="tab" data-v="'+t[0]+'">'+ico(t[0])+" "+t[1]+"</button>"}).join("")+'<button data-a="style">'+ico("palette")+' Colour: '+PALS[S.pal][1]+"</button>"+'<button data-a="tour">'+ico("help")+' How to use the app</button>';
+  var mn=document.getElementById("mn");mn.hidden=!MN;mn.innerHTML=TABS.map(function(t){return'<button data-a="tab" data-v="'+t[0]+'">'+ico(t[0])+" "+t[1]+"</button>"}).join("")+'<button data-a="style">'+ico("palette")+' Colour: '+PALS[S.pal][1]+"</button>"+'<button data-a="tour">'+ico("help")+' How to use the app</button>'+'<button data-a="priv">'+ico("help")+' Data &amp; privacy</button>';
   document.getElementById("tabs").innerHTML=TABS.map(function(t){return'<button data-a="tab" data-v="'+t[0]+'"'+(S.tab===t[0]?' aria-current="page"':"")+"><span>"+t[2]+"</span>"+t[1]+"</button>"}).join("");
   document.getElementById("view").className=fresh?"anim":"";document.getElementById("view").innerHTML=evBar()+tabHead()+{home:home,overview:overview,budget:budget,vendors:vendors,guests:guests,schedule:schedule,pledges:pledges,invites:invites,share:share}[S.tab]();
   if(S.tab==="invites")drawCv();if(fresh&&(S.tab==="overview"||S.tab==="home"))countUp();if(fresh&&S.tab!=="home"&&window.pageTour)pageTour();
@@ -525,7 +530,7 @@ function sheets(id){
     if(pg===N-1&&D.r.length){var y2=570+Math.min(R.length-pg*per,per)*74+30;x.font="600 30px "+SAN;x.fillStyle=ink;
       if(Array.isArray(D.f))D.f.forEach(function(t,j){var col=D.c[j];x.textAlign=col[2]==="l"?"left":"right";x.fillText(t,col[1],y2)});
       else{x.textAlign="left";x.fillText(D.f,110,y2)}}
-    x.textAlign="center";x.fillStyle="#9a8f80";x.font="italic 500 24px "+SER;x.fillText("Prepared with Vow & Velvet · "+fmtDate(TODAY,1)+" "+NOW.getFullYear(),620,1646);x.font="500 22px "+SAN;x.fillText("2026. Chava by Design",620,1682);
+    x.textAlign="center";x.fillStyle="#9a8f80";x.font="italic 500 24px "+SER;x.fillText("Prepared with Vow & Velvet · "+fmtDate(TODAY,1)+" "+NOW.getFullYear(),620,1646);x.font="500 22px "+SAN;x.fillText("© 2026 Chava by Design. All rights reserved.",620,1682);
     out.push(c)}
   return out}
 
@@ -606,6 +611,7 @@ document.addEventListener("click",function(ev){
   else if(a==="save"){grab();burst(ev.clientX,ev.clientY)}
   else if(a==="addexp"){var v=val("ev"),t=num("et"),p=num("ep");if(!v||!t){f(v?"et":"ev");return}S.exp.push({v:v,t:t,p:Math.min(p,t)})}
   else if(a==="ccy"){MN=0;render();pickCcy();return}
+  else if(a==="priv"){MN=0;render();privacy();return}
   else if(a==="ptour"){if(PT[S.tab])tour(0,PT[S.tab]);return}
   else if(a==="tour"){MN=0;S.tab="home";render();window.scrollTo(0,0);setTimeout(function(){tour(0)},250);return}
   else if(a==="payexp"){var q=S.exp[i];ask("Add payment (remaining "+money(q.t-q.p)+")",[["Amount paid now","","number"]],function(v){var n=parseFloat(v[0]);if(n>0)q.p=Math.min(q.t,q.p+n)});return}
@@ -663,7 +669,7 @@ render();
 <script>
 var TS=[[null,"Let’s take a quick tour","See where everything lives. It takes less than a minute."],[".evbar","Your events","Each event has its own chip. Tap + New event to plan another one: a wedding, kitchen party, birthday and more."],[".tile:nth-child(8)","Start here","Open Event details to choose your event type and set its name and date. Your countdown appears on the card above."],[".arch","Your event at a glance","See the live countdown, plus a bell to set a calendar reminder for the big day."],[".tile","Tap a tile to open a page","Tasks, Budget, Guests, Vendors, Invitations, Pledges, Calendar and Share. Each one has a ‹ Home button to come back."],[".hb","The menu","Jump to any page, change the colour, or replay this tour anytime."],[".seg","Light or Dark","Pick the look that is easiest on your eyes."],[null,"You are all set","Everything is saved on this phone and works without internet. Enjoy planning!"]];
 function tour(k,L){L=L||TS;var o=document.getElementById("tour");if(!o){o=document.createElement("div");o.id="tour";document.body.appendChild(o)}
- if(k>=L.length){o.remove();if(L===TS)S.seen=1;else{S.pt=S.pt||{};S.pt[S.tab]=1}save();window.scrollTo(0,0);return}
+ if(k>=L.length){o.remove();if(L===TS){S.seen=1;if(!S.priv)setTimeout(privacy,350)}else{S.pt=S.pt||{};S.pt[S.tab]=1}save();window.scrollTo(0,0);return}
  var st=L[k],el=st[0]&&document.querySelector(st[0]);if(el)el.scrollIntoView({block:"center"});
  setTimeout(function(){var r=el?el.getBoundingClientRect():null,W=innerWidth,H=innerHeight,tw=Math.min(310,W-32),pd=8,
   hl=r?'<div class="thl" style="left:'+(r.left-pd)+'px;top:'+(r.top-pd)+'px;width:'+(r.width+2*pd)+'px;height:'+(r.height+2*pd)+'px"></div>':'<div class="thl" style="left:50%;top:50%;width:0;height:0"></div>',
@@ -680,8 +686,8 @@ pledges:[[".ccyb","Change currency","Tap here to switch currency. It changes eve
 invites:[[".thumbs","Choose a paper","Five designs, all drawn inside the app. Tap one to preview it."],["#cv","Live preview","Fill in the details below and watch the card change. Save it as a picture or PDF, or share to WhatsApp."],["#wal","Want something custom?","Send a request to the studio on WhatsApp."]],
 share:[[".chips","Choose what to share","Pick the guest list, budget, pledges, tasks or vendors, then PDF or picture."],[".card:last-of-type","Send an event to another phone","Export this event as a file so a helper can update it, then import it back."]]};
 function pageTour(){if(!S.seen||!PT[S.tab]||(S.pt&&S.pt[S.tab]))return;setTimeout(function(){if(!document.getElementById("tour")&&!document.getElementById("welcome")&&!document.querySelector(".mdl"))tour(0,PT[S.tab])},500)}
-function welcome(){var first=!S.seen,w=document.createElement("div");w.id="welcome";w.innerHTML='<div class="wc">'+CREST+'<h1>Vow &amp; Velvet</h1><i class="wl"></i><p class="wq">“Every beautiful celebration begins with a promise, and a plan.”</p><small>by Chava by Design</small></div>'+(first?'<button class="btn wb">Get started</button>':'<span class="wt">Tap to continue</span>');document.body.appendChild(w);
- var done=0,go=function(){if(done)return;done=1;w.classList.add("out");setTimeout(function(){w.remove();if(first)tour(0)},500)};
+function welcome(){var first=!S.seen,w=document.createElement("div");w.id="welcome";w.innerHTML='<div class="wc">'+CREST+'<h1>Vow &amp; Velvet</h1><i class="wl"></i><p class="wq">“Every beautiful celebration begins with a promise, and a plan.”</p><small>by Chava by Design</small><em class="wcp">© 2026 Chava by Design. All rights reserved.</em></div>'+(first?'<button class="btn wb">Get started</button>':'<span class="wt">Tap to continue</span>');document.body.appendChild(w);
+ var done=0,go=function(){if(done)return;done=1;w.classList.add("out");setTimeout(function(){w.remove();if(first)tour(0);else if(!S.priv)privacy()},500)};
  if(first)w.querySelector(".wb").onclick=go;else{w.onclick=go;setTimeout(go,2600)}}
 welcome();
 </script>

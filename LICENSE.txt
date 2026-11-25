@@ -1,0 +1,13 @@
+Vow & Velvet
+Copyright (c) 2026 Chava by Design. All rights reserved.
+
+This app, its source code, invitation designs, icons and text are the property of
+Chava by Design. You may use the app for your own events.
+
+You may NOT copy, modify, resell, redistribute, repackage or publish this app, its
+code or its designs, in whole or in part, without written permission from
+Chava by Design.
+
+The app is provided "as is", without warranty of any kind. Chava by Design is not
+responsible for data lost from a device. Event data is stored only on the user's
+own device.
