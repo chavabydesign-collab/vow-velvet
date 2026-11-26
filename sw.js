@@ -1,4 +1,4 @@
-const C='chava-soiree-v25';
+const C='chava-soiree-v27';
 const A=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./hero.jpg'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>Promise.all(A.map(u=>c.add(u).catch(()=>{})))))});
 self.addEventListener('message',e=>{if(e.data==='skip')self.skipWaiting()});
