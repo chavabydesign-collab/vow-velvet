@@ -235,6 +235,17 @@ select{width:100%;height:50px;border:1px solid var(--line);border-radius:14px;ba
 .mbox select{width:100%;margin-top:4px;height:48px;border:1px solid var(--line);border-radius:12px;background:var(--field);color:var(--ink);padding:0 10px;font-size:15px}
 .tile{position:relative}.tile .num{position:absolute;top:8px;left:10px;font:600 10px "Plus Jakarta Sans",sans-serif;font-style:normal;color:var(--mute);letter-spacing:.06em}
 .wt{position:static;display:block;margin-top:22px;font-size:12px}.wcp{position:absolute;bottom:26px;left:0;right:0;margin:0;text-align:center}.rcode{font:600 30px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-align:center;color:var(--hero);margin:6px 0 14px!important}
+.itabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0 14px}.itabs button{border:1.5px solid var(--line);background:var(--field);color:var(--ink);border-radius:14px;padding:8px 4px;font:600 12.5px "Figtree",sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.15}.itabs b{font:700 15px "Figtree",sans-serif}.itabs button[aria-pressed="true"]{background:var(--hero);border-color:var(--hero);color:var(--on-hero)}
+.pvw{position:sticky;top:0;z-index:5;background:var(--card);padding:8px 0;margin:0 0 8px;text-align:center}.pvw #cv{width:auto;height:210px;max-width:none;margin:0 auto;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.thumbs.t2{grid-template-columns:1fr 1fr}.thumbs strong{display:block;font-weight:600;font-size:13px}.thumbs small{display:block;color:var(--mute);font-size:11.5px;margin-top:2px;line-height:1.25}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.grid3 .btn{padding:12px 4px;font-size:13px}
+.ups{display:flex;gap:12px;margin:2px 0 12px}.upw{flex:1;min-width:0}.upr{position:relative}.upb{display:flex;align-items:center;justify-content:center;height:92px;border:1.5px dashed var(--line);border-radius:14px;background:var(--field);color:var(--mute);font:500 13px "Figtree",sans-serif;text-align:center;cursor:pointer;overflow:hidden}.upb img{width:100%;height:100%;object-fit:contain}.upx{position:absolute;top:-8px;right:-8px;width:26px;height:26px;border-radius:50%;border:0;background:var(--hero);color:var(--on-hero);font-size:16px;line-height:1;cursor:pointer}
+.stats b{font-family:"Figtree",sans-serif;font-variant-numeric:lining-nums}
+.how{margin:0 0 12px;font-size:13.5px;color:var(--mute)}.how summary{cursor:pointer;color:var(--ink);font-weight:600}.how p{margin:6px 0 0}
+.list li.gc{display:block;border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px}.gt{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.gn2{display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-width:0}.list .gn2 b{display:inline;font-size:16px;margin-right:2px}
+.pl{font:600 11px "Figtree",sans-serif;padding:3px 9px;border-radius:999px;border:1px solid var(--line);background:var(--field);color:var(--mute);white-space:nowrap}.pl.s1{background:var(--gold);border-color:var(--gold);color:#fff}.pl.s2{border-color:#c0564b;color:#c0564b}
+.gd{display:flex;flex-wrap:wrap;gap:4px 14px;margin:8px 0 0;color:var(--mute);font-size:13px;overflow-wrap:anywhere}.ga{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}.ga .tag{text-decoration:none;flex:none;padding:7px 14px}
+.seg{display:flex;flex:1 1 170px;border:1px solid var(--gold);border-radius:999px;overflow:hidden}.seg button{flex:1;border:0;background:transparent;color:var(--ink);padding:7px 2px;font:500 12px "Figtree",sans-serif;cursor:pointer}.seg button[aria-pressed="true"]{background:var(--gold);color:#fff}
 </style>
 </head>
 <body>
@@ -311,7 +322,7 @@ function burst(x,y){if(still()||!document.body.animate)return;var cl=["#b8975a",
     d.animate([{transform:"translate(0,0) rotate(0deg)",opacity:1},{transform:"translate("+Math.cos(a)*r+"px,"+(Math.sin(a)*r+70)+"px) rotate("+Math.round(Math.random()*540)+"deg)",opacity:0}],{duration:900+Math.random()*500,easing:"cubic-bezier(.15,.7,.3,1)"}).onfinish=(function(el){return function(){el.remove()}})(d)}}
 
 var INK=["#1f3a2e","#6b2f3f","#1d2640","#3f4349","#6b5320","#0f172a","#312e81","#2a1f25"],GOLD=["#b8975a","#c0956a","#c9a96a","#9a948a","#b08d45","#c9a96a","#c9a96a","#c9a96a"];
-var CW=[{a:"#fbf7ef",b:"#eee3cc",ink:"#1f3a2e",gold:"#b8975a",n:"Emerald"},{a:"#fcefeb",b:"#f3d6cf",ink:"#6b2f3f",gold:"#b98a5c",n:"Blush"},{a:"#26325a",b:"#141a2e",ink:"#f4ead6",gold:"#d6b878",n:"Midnight"},{a:"#fffbfa",b:"#f8e9e8",ink:"#4a2d37",gold:"#b8975a",n:"Rosewater"},{a:"#0c0a0b",b:"#1d1612",ink:"#f6efe2",gold:"#e0c07a",n:"Acrylic"},{a:"#fbf6ea",b:"#f1e7d0",ink:"#3c3426",gold:"#b8975a",n:"Ivory"},{a:"#11193a",b:"#05080f",ink:"#f1e7cf",gold:"#d6b878",n:"Velvet"}];
+var CW=[{a:"#fbf7ef",b:"#eee3cc",ink:"#1f3a2e",gold:"#b8975a",n:"Emerald"},{a:"#fcefeb",b:"#f3d6cf",ink:"#6b2f3f",gold:"#b98a5c",n:"Blush"},{a:"#26325a",b:"#141a2e",ink:"#f4ead6",gold:"#d6b878",n:"Midnight"},{a:"#fffbfa",b:"#f8e9e8",ink:"#4a2d37",gold:"#b8975a",n:"Rosewater"},{a:"#0c0a0b",b:"#1d1612",ink:"#f6efe2",gold:"#e0c07a",n:"Acrylic"},{a:"#fbf6ea",b:"#f1e7d0",ink:"#3c3426",gold:"#b8975a",n:"Ivory"},{a:"#11193a",b:"#05080f",ink:"#f1e7cf",gold:"#d6b878",n:"Velvet"},{a:"#f46a4e",b:"#b8325a",ink:"#ffffff",gold:"#ffe7a3",n:"Coral"},{a:"#2e3846",b:"#151a22",ink:"#f3f5f8",gold:"#c5cfdb",n:"Slate"}];
 var SER='"Cormorant Garamond",Georgia,serif',SAN='Figtree,system-ui,sans-serif';
 var MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
 var ST=["Invited","Attending","Declined"];
@@ -427,22 +438,33 @@ function pledges(){
   return h+"</ul></section>"}
 
 function waUrl(){return"https://wa.me/"+(STUDIO_WA.replace(/\D/g,""))+"?text="+encodeURIComponent("Hello! I’d like an invitation for my "+S.type+". "+(S.inv.want||"I saw a sample I like and would love something similar."))}
-function photoUI(v){function bt(k,n){return'<label class="btn soft" style="display:block;text-align:center;cursor:pointer;margin:0">'+(v[k]?"Change ":"Add ")+n+'<input type="file" accept="image/*" data-up="'+k+'" style="display:none"></label>'}
-  return'<p class="lbl">Photo and logo (optional)</p><div class="grid2" style="margin-bottom:8px">'+bt("ph","photo")+bt("lg","logo")+"</div>"+((v.ph||v.lg)?'<div class="grid2" style="margin-bottom:8px">'+(v.ph?'<button class="btn soft" data-a="rmimg" data-v="ph">Remove photo</button>':"<span></span>")+(v.lg?'<button class="btn soft" data-a="rmimg" data-v="lg">Remove logo</button>':"<span></span>")+"</div>":"")+'<p class="notice" style="margin:0 0 10px">The photo shows as a round picture near the top and the logo sits above it. Both stay on your phone.</p>'}
+var istep=1,gf=-1;
+function upBox(v,k,n){var d=v[k];return'<div class="upw"><span class="lbl">'+n+'</span><div class="upr"><label class="upb">'+(d?'<img alt="'+n+'" src="'+d+'">':"+ Add "+n.toLowerCase())+'<input type="file" accept="image/*" data-up="'+k+'" style="display:none"></label>'+(d?'<button class="upx" data-a="rmimg" data-v="'+k+'" aria-label="Remove '+n+'">×</button>':"")+"</div></div>"}
 function invites(){
-  var v=S.inv,c=[0,0,0];S.guests.forEach(function(g){c[g.s]++});
-  var f=function(id,ph,type){return'<input data-f="'+id+'" '+(type?'type="'+type+'" ':"")+'placeholder="'+ph+'" value="'+esc(v[id])+'">'};
-  var q=encodeURIComponent(S.type+" invitation card");
-  var h='<section class="card" style="margin-top:34px"><h3>Make your invitation</h3><p class="sub">Pick a paper, then fill in the details. The card writes itself.</p><p class="lbl">Choose your paper</p><div class="thumbs">'+PAPERS.map(function(n,i){return'<button data-a="paper" data-v="'+i+'" aria-pressed="'+((v.paper||0)===i)+'"><canvas id="th'+i+'" width="160" height="222"></canvas><span>'+n+"</span></button>"}).join("")+'</div><p class="lbl">Colours and lettering</p><div class="chips" style="margin-top:0">';
-  CW.forEach(function(w,i){h+='<button class="chip" data-a="cw" data-v="'+i+'" aria-pressed="'+(v.c===i)+'">'+w.n+"</button>"});
-  h+='</div><div class="chips" style="margin-top:0">'+FS.map(function(n,i){return'<button class="chip" data-a="fs" data-v="'+i+'" aria-pressed="'+((v.fs||0)===i)+'">'+n+"</button>"}).join("")+'</div><p class="lbl">Stickers, tap up to 6</p><div class="chips" style="margin-top:0">'+stkChips()+'</div>'+photoUI(v)+f("host","Host names, e.g. Chanda &amp; Mwila")+f("title","Event title (uses your Overview title if empty)")+'<div class="row"><div style="flex:1"><label class="lbl">Date</label>'+f("date","","date")+'</div><div style="flex:1"><label class="lbl">Time</label>'+f("time","","time")+'</div></div>'+f("venue","Venue, e.g. Intercontinental, Lusaka")+f("msg","A short message")+f("dress","Dress code (optional)")+f("rsvp","RSVP phone number")+'<canvas id="cv"></canvas>';
-  h+='<div class="grid2"><button class="btn" data-a="invpng">Save as picture</button><button class="btn" data-a="invpdf">Save as PDF</button><button class="btn soft" data-a="invshare">Share on WhatsApp</button><button class="btn soft" data-a="invvid" id="vidbtn">Animated video</button></div><p class="notice">Picture, PDF and video are made on your phone, so they work offline.</p></section>';
-  h+='<section class="card"><h3>See samples, request yours</h3><p class="sub">See our designs on Pinterest and Facebook, then tell us what to customise. Needs internet.</p><div class="grid2" style="margin-bottom:0"><a class="lnk" target="_blank" rel="noopener" href="https://pin.it/XzulX4Eb7">Our Pinterest</a><a class="lnk" target="_blank" rel="noopener" href="https://www.facebook.com/profile.php?id=61596755584798">Our Facebook</a></div><input data-f="want" style="margin-top:12px" placeholder="What did you like? e.g. gold arch, green colours" value="'+esc(v.want)+'"><a class="btn" id="wal" style="display:block;text-align:center;text-decoration:none" target="_blank" rel="noopener" href="'+waUrl()+'">Request on WhatsApp</a></section>';
+  var v=S.inv,th=thOf(v);
+  var f=function(id,lb,ph,type){return'<label class="lbl" for="i_'+id+'">'+lb+'</label><input id="i_'+id+'" data-f="'+id+'" '+(type?'type="'+type+'" ':"")+(ph?'placeholder="'+ph+'" ':"")+'value="'+esc(v[id])+'">'};
+  var pv=function(){return'<div class="pvw"><canvas id="cv"></canvas></div>'};
+  var nx=function(n,t){return'<button class="btn" style="width:100%;margin-top:6px" data-a="istep" data-v="'+n+'">'+t+"</button>"};
+  var h='<section class="card" style="margin-top:34px"><h3>Make your invitation</h3><div class="itabs">'+["Theme & Design","Event Details","Preview & Share"].map(function(n,i){return'<button data-a="istep" data-v="'+(i+1)+'" aria-pressed="'+(istep===i+1)+'"><b>'+(i+1)+"</b>"+n+"</button>"}).join("")+"</div>";
+  if(istep===1){
+    h+=pv()+'<p class="lbl">Choose a theme</p><div class="thumbs t2">'+TH.map(function(t,i){return'<button data-a="theme" data-v="'+i+'" aria-pressed="'+(th===i)+'"><canvas id="th'+i+'" width="240" height="333"></canvas><strong>'+t.n+"</strong><small>"+t.s+"</small></button>"}).join("")+'</div><p class="lbl">Colours</p><div class="chips" style="margin-top:0">';
+    CW.forEach(function(w,i){h+='<button class="chip" data-a="cw" data-v="'+i+'" aria-pressed="'+(v.c===i)+'">'+w.n+"</button>"});
+    h+='</div><p class="lbl">Lettering</p><div class="chips" style="margin-top:0">'+FS.map(function(n,i){return'<button class="chip" data-a="fs" data-v="'+i+'" aria-pressed="'+((v.fs||0)===i)+'">'+n+"</button>"}).join("")+'</div><p class="lbl">Stickers, tap up to 4 (shown in the corners)</p><div class="chips" style="margin-top:0">'+stkChips()+"</div>"+nx(2,"Next: Event details")}
+  else if(istep===2){
+    h+=pv()+f("host","Host / Honoree Name","e.g. Chanda &amp; Mwila")+f("title","Event Title","Optional, uses your event title")+'<div class="row"><div style="flex:1;min-width:0">'+f("date","Date","","date")+'</div><div style="flex:1;min-width:0">'+f("time","Time","","time")+"</div></div>"+f("venue","Venue / Location","e.g. Intercontinental, Lusaka")+f("dress","Dress Code","Optional")+f("msg","Short Message","e.g. Join us for dinner")+f("rsvp","RSVP Phone / WhatsApp","e.g. 0971 234 567")+'<div class="ups">'+upBox(v,"ph","Photo")+upBox(v,"lg","Logo")+'</div><p class="notice" style="margin:0 0 8px">The photo shows as a round picture and the logo sits at the top. Nothing shows if you add neither.</p>'+nx(3,"Next: Preview &amp; share")}
+  else{
+    h+=pv().replace("pvw","pvb")+'<button class="btn" style="width:100%;margin:4px 0 10px" data-a="invshare">Share on WhatsApp</button><div class="grid3"><button class="btn soft" data-a="invpng">Save picture</button><button class="btn soft" data-a="invpdf">Save PDF</button><button class="btn soft" data-a="invvid" id="vidbtn">Animated video</button></div><p class="notice">Picture, PDF and video are made on your phone, so they work offline.</p>'}
+  h+="</section>";
+  if(istep===3)h+='<section class="card"><h3>See samples, request yours</h3><p class="sub">See our designs on Pinterest and Facebook, then tell us what to customise. Needs internet.</p><div class="grid2" style="margin-bottom:0"><a class="lnk" target="_blank" rel="noopener" href="https://pin.it/XzulX4Eb7">Our Pinterest</a><a class="lnk" target="_blank" rel="noopener" href="https://www.facebook.com/profile.php?id=61596755584798">Our Facebook</a></div><input data-f="want" style="margin-top:12px" placeholder="What did you like? e.g. gold arch" value="'+esc(v.want)+'"><a class="btn" id="wal" style="display:block;text-align:center;text-decoration:none" target="_blank" rel="noopener" href="'+waUrl()+'">Request on WhatsApp</a></section>';
   return h}
-function guests(){var c=[0,0,0],h="";S.guests.forEach(function(g){c[g.s]++});
-  h+='<section class="card"><h3>Guest list</h3><p class="sub">Listed A to Z. Tap a status to update an RSVP.</p><div class="stats"><div><b>'+c[1]+'</b><small>Attending</small></div><div><b>'+c[0]+'</b><small>Awaiting</small></div><div><b>'+c[2]+'</b><small>Declined</small></div></div>Name, phone, email (optional) and table. Tip: share your invitation card first (Invites page), then tap Invite to send the message asking them to reply. When they say yes, mark them Attending.</p>'+tblSum()+'<input id="gn" placeholder="Guest name"><div class="row"><input id="gp" type="tel" inputmode="tel" placeholder="Phone (optional)"><input id="gt" placeholder="Table" style="max-width:110px"></div><input id="ge" type="email" inputmode="email" placeholder="Email (optional)"><button class="btn" data-a="addg">Add guest</button><ul class="list">';
-  h+=S.guests.length?S.guests.map(function(g,i){return[g,i]}).sort(function(a,b){return String(a[0].n).localeCompare(String(b[0].n),undefined,{sensitivity:"base",numeric:true})}).map(function(o){var g=o[0],i=o[1];return'<li><div class="main"><b>'+esc(g.n)+'</b><small>'+(g.tb?"Table "+esc(g.tb):"No table")+(g.p?" · "+esc(g.p):"")+(g.e?"<br>"+esc(g.e):"")+'</small></div>'+(g.e?'<a class="tag" href="mailto:'+esc(g.e)+'?subject='+encodeURIComponent("Invitation: "+(S.inv.title||S.title||S.type))+'&body='+encodeURIComponent(invMsg(g))+'">Email</a>':"")+'<a class="tag" target="_blank" rel="noopener" href="https://wa.me/'+digits(g.p||"")+'?text='+encodeURIComponent(invMsg(g))+'">Invite</a><button class="tag'+(g.s===1?" on":"")+'" data-a="cycg" data-i="'+i+'">'+ST[g.s]+'</button><button class="x" data-a="delg" data-i="'+i+'" aria-label="Remove">×</button></li>'}).join(""):'<li><p class="empty" style="width:100%">Add your first guest to begin.</p></li>';
-  return h+"</ul>"+(S.guests.length?'<div class="grid2" style="margin:14px 0 0"><button class="btn" data-a="gshpdf">Share guest list (PDF)</button><button class="btn soft" data-a="gshpng">Share as picture</button></div>':"")+"</section>"}
+function gcard(g,i){var GL=["Awaiting","Attending","Declined"],m=encodeURIComponent(invMsg(g)),ct=(g.p?"<span>📞 "+esc(g.p)+"</span>":"")+(g.e?"<span>✉️ "+esc(g.e)+"</span>":"");
+  return'<li class="gc"><div class="gt"><div class="gn2"><b>'+esc(g.n)+"</b>"+(g.tb?'<span class="pl">Table '+esc(g.tb)+"</span>":"")+'<span class="pl s'+g.s+'">'+GL[g.s]+'</span></div><button class="x" data-a="delg" data-i="'+i+'" aria-label="Remove">×</button></div>'+(ct?'<div class="gd">'+ct+"</div>":"")+'<div class="ga"><a class="tag" target="_blank" rel="noopener" href="https://wa.me/'+digits(g.p||"")+"?text="+m+'">Invite</a>'+(g.e?'<a class="tag" href="mailto:'+esc(g.e)+"?subject="+encodeURIComponent("Invitation: "+(S.inv.title||S.title||S.type))+"&body="+m+'">Email</a>':"")+'<div class="seg">'+GL.map(function(n,k){return'<button data-a="setg" data-i="'+i+'" data-v="'+k+'" aria-pressed="'+(g.s===k)+'">'+n+"</button>"}).join("")+"</div></div></li>"}
+function guests(){var c=[0,0,0],h="",FL=[["All",-1],["Attending",1],["Awaiting",0],["Declined",2]];S.guests.forEach(function(g){c[g.s]++});
+  h+='<section class="card"><h3>Guest list</h3><p class="sub">Listed A to Z. Tip: share your invitation first, then tap Invite on each guest.</p><details class="how"><summary>? How it works</summary><p>Add a name, plus a phone number if you want to message them. Tap Invite to open WhatsApp with a ready message. When a guest replies, set their RSVP to Attending or Declined. Email shows only if you entered an email address.</p></details><div class="stats"><div><b>'+c[1]+"</b><small>Attending</small></div><div><b>"+c[0]+"</b><small>Awaiting</small></div><div><b>"+c[2]+"</b><small>Declined</small></div></div>"+tblSum()+'<input id="gn" placeholder="Guest name"><div class="row"><input id="gp" type="tel" inputmode="tel" placeholder="Phone (optional)"><input id="gt" placeholder="Table" style="max-width:110px"></div><input id="ge" type="email" inputmode="email" placeholder="Email (optional)"><button class="btn" data-a="addg">Add guest</button>';
+  if(S.guests.length)h+='<div class="chips">'+FL.map(function(o){return'<button class="chip" data-a="gflt" data-v="'+o[1]+'" aria-pressed="'+(gf===o[1])+'">'+o[0]+" "+(o[1]<0?S.guests.length:c[o[1]])+"</button>"}).join("")+"</div>";
+  var L=S.guests.map(function(g,i){return[g,i]}).filter(function(o){return gf<0||o[0].s===gf}).sort(function(a,b){return String(a[0].n).localeCompare(String(b[0].n),undefined,{sensitivity:"base",numeric:true})});
+  h+='<ul class="list">'+(L.length?L.map(function(o){return gcard(o[0],o[1])}).join(""):'<li><p class="empty" style="width:100%">'+(S.guests.length?"No guests in this group.":"Add your first guest to begin.")+"</p></li>")+"</ul>";
+  return h+(S.guests.length?'<div class="grid2" style="margin:14px 0 0"><button class="btn" data-a="gshpdf">Share guest list (PDF)</button><button class="btn soft" data-a="gshpng">Share as picture</button></div>':"")+"</section>"}
 
 var SEC=[["guests","Guest list"],["budget","Budget"],["pledges","Pledges"],["tasks","Tasks"],["vendors","Vendors"]];
 function share(){
@@ -497,46 +519,55 @@ function florals(x,K){var A=x.globalAlpha;x.save();
   [[1080,60,2.5,430],[1080,210,2.2,380],[1000,0,1.9,330],[0,1440,-.65,440],[0,1290,-.3,380],[130,1500,-1.1,320]].forEach(function(o){sp(o[0],o[1],o[2],o[3])});
   [[960,120,95],[840,60,60],[1020,300,55],[130,1380,100],[300,1440,62],[40,1210,58]].forEach(function(o){ro(o[0],o[1],o[2])});
   x.restore()}
-function drawInvite(c,p,ppo){
-  var W=1080,H=1500,x=c.getContext("2d"),v=S.inv,K=CW[v.c],F=FM[v.fs||0],pp=(function(r){return r===1?3:r>=2?r+2:0})(ppo!==undefined?ppo:(v.paper||0)),up=function(t){return F.up?t.toUpperCase():t};c.width=W;c.height=H;
-  var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,K.a);g.addColorStop(1,K.b);x.fillStyle=g;x.fillRect(0,0,W,H);
-  x.globalAlpha=clamp(p*6);x.strokeStyle=K.gold;
-  if(pp===0){x.lineWidth=4;arch(x,110,100,860,1300);x.stroke();x.lineWidth=1.5;arch(x,134,124,812,1252);x.stroke();x.strokeRect(40,40,W-80,H-80)}
-  else if(pp===1){x.lineWidth=5;x.strokeRect(100,100,880,1300);x.lineWidth=1.5;x.strokeRect(128,128,824,1244);x.strokeRect(40,40,W-80,H-80);x.fillStyle=K.gold;[[128,128],[952,128],[128,1372],[952,1372]].forEach(function(o){x.save();x.translate(o[0],o[1]);x.rotate(Math.PI/4);x.fillRect(-10,-10,20,20);x.restore()})}
-  else if(pp===3){florals(x,K)}
-  else if(pp>3){luxe(x,K,pp)}
-  else{var sd=7,rnd=function(){sd=(sd*9301+49297)%233280;return sd/233280},cl=[K.gold,K.ink,"#e9a3a3","#8fbfa6","#f3d48a"];
-    for(var i=0;i<110;i++){var px=rnd()*W,py=rnd()*H,an=rnd()*3,cw=10+rnd()*16,co=cl[i%5];if(px>150&&px<930&&py>180&&py<1320)continue;x.save();x.globalAlpha=clamp(p*6)*.6;x.fillStyle=co;x.translate(px,py);x.rotate(an);x.fillRect(-cw/2,-4,cw,8);x.restore()}
-    x.lineWidth=7;x.lineCap="round";x.setLineDash([1,20]);rr(x,90,90,900,1320,70);x.stroke();x.setLineDash([]);x.lineCap="butt"}
-  x.textAlign="center";x.textBaseline="middle";var SL=pp===0?SLOT:SLOT2;
-  (v.stk||[]).slice(0,6).forEach(function(e,i){if(i===0&&(v.ph||v.lg))return;var o=SL[i];x.font=o[2]+'px "Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji",sans-serif';x.fillText(e,o[0],o[1])});
-  x.textBaseline="alphabetic";x.globalAlpha=1;
-  var PH=v.ph&&_im[v.ph],LG=v.lg&&_im[v.lg],ymin=400,pcy=LG?420:400,pr=LG?110:125;
-  x.globalAlpha=clamp(p*6);
-  if(LG){var lh=PH?90:110,lw=PH?260:300,sc=Math.min(lw/LG.width,lh/LG.height),w2=LG.width*sc,h2=LG.height*sc;x.drawImage(LG,W/2-w2/2,(PH?220:230)-h2/2,w2,h2)}
-  if(PH){var sq=Math.min(PH.width,PH.height);x.save();x.beginPath();x.arc(W/2,pcy,pr,0,Math.PI*2);x.clip();x.drawImage(PH,(PH.width-sq)/2,(PH.height-sq)/2,sq,sq,W/2-pr,pcy-pr,2*pr,2*pr);x.restore();x.strokeStyle=K.gold;x.lineWidth=5;x.beginPath();x.arc(W/2,pcy,pr+8,0,Math.PI*2);x.stroke();ymin=pcy+pr-20}
+function star(x,cx,cy,r){x.beginPath();for(var i=0;i<8;i++){var a=i*Math.PI/4-Math.PI/2,d=i%2?r*.24:r;x.lineTo(cx+Math.cos(a)*d,cy+Math.sin(a)*d)}x.closePath();x.fill()}
+function t12(t){var m=/^(\d+):(\d+)/.exec(t||"");if(!m)return t||"";var h=+m[1];return(h%12||12)+":"+m[2]+" "+(h<12?"AM":"PM")}
+var TH=[{n:"Festive & Holiday",s:"Christmas, New Year, Gala",c:6,fs:1},{n:"Birthday & Celebration",s:"Birthday, Graduation, Baby shower",c:7,fs:2},{n:"Classic & Bridal",s:"Wedding, Kitchen party, Engagement",c:5,fs:0},{n:"Modern & Corporate",s:"Business, Dinner, Launch",c:8,fs:2}];
+function thOf(v){return v.th!==undefined?v.th:[2,2,3,2,0][v.paper||0]}
+function drawInvite(c,p,tho){
+  var W=1080,H=1500,x=c.getContext("2d"),v=S.inv,K=CW[v.c]||CW[5],F=FM[v.fs||0],th=tho!==undefined?tho:thOf(v),SN=FM[2].sf,up=function(t){return F.up?t.toUpperCase():t},al=clamp(p*6);c.width=W;c.height=H;
+  var g=x.createLinearGradient(0,0,th===1?W:0,H);g.addColorStop(0,K.a);g.addColorStop(1,K.b);x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.globalAlpha=al;x.strokeStyle=K.gold;x.fillStyle=K.gold;
+  if(th===0){x.lineWidth=3;x.strokeRect(60,60,960,1380);x.lineWidth=1.5;x.strokeRect(84,84,912,1332);
+    [[60,60],[1020,60],[60,1440],[1020,1440]].forEach(function(o){star(x,o[0],o[1],34)});
+    [[140,120,12],[120,148,8],[940,120,12],[960,148,8],[140,1380,12],[120,1352,8],[940,1380,12],[960,1352,8],[300,112,7],[780,112,7],[300,1388,7],[780,1388,7]].forEach(function(o){star(x,o[0],o[1],o[2])})}
+  else if(th===1){x.fillStyle="#fff";x.globalAlpha=al*.14;x.beginPath();x.arc(0,0,300,0,6.3);x.fill();x.beginPath();x.arc(W,H,300,0,6.3);x.fill();x.globalAlpha=al*.22;x.beginPath();x.arc(W-70,330,38,0,6.3);x.fill();x.beginPath();x.arc(70,1170,38,0,6.3);x.fill();
+    x.globalAlpha=al;x.strokeStyle="#fff";x.lineWidth=10;rr(x,70,70,940,1360,56);x.stroke();x.lineWidth=2;rr(x,100,100,880,1300,40);x.stroke()}
+  else if(th===2){florals(x,K);x.globalAlpha=al;x.strokeStyle=K.gold;x.lineWidth=4;arch(x,110,100,860,1300);x.stroke();x.lineWidth=1.5;arch(x,134,124,812,1252);x.stroke();x.strokeRect(40,40,W-80,H-80)}
+  else{x.lineWidth=3;x.strokeRect(60,60,960,1380);x.fillRect(0,0,W,16);x.lineWidth=10;[[100,100,1,1],[980,100,-1,1],[100,1400,1,-1],[980,1400,-1,-1]].forEach(function(o){x.beginPath();x.moveTo(o[0]+o[2]*90,o[1]);x.lineTo(o[0],o[1]);x.lineTo(o[0],o[1]+o[3]*90);x.stroke()})}
+  x.globalAlpha=al;x.textAlign="center";x.textBaseline="middle";x.fillStyle=K.gold;
+  var SL=th===2?[[150,150],[930,150],[150,1350],[930,1350]]:[[165,190],[915,190],[165,1310],[915,1310]];
+  (v.stk||[]).slice(0,4).forEach(function(e,i){x.font='76px "Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji",sans-serif';x.fillText(e,SL[i][0],SL[i][1])});
+  x.textBaseline="alphabetic";
+  var PH=v.ph&&_im[v.ph],LG=v.lg&&_im[v.lg],cur=th===2?250:230,B=1280,pr=th===1?165:125;
+  if(LG){var sc=Math.min(320/LG.width,100/LG.height),w2=LG.width*sc,h2=LG.height*sc;x.drawImage(LG,W/2-w2/2,cur,w2,h2);cur+=h2+36}
+  if(PH){var cy=cur+pr,sq=Math.min(PH.width,PH.height);x.save();x.beginPath();x.arc(W/2,cy,pr,0,6.3);x.clip();x.drawImage(PH,(PH.width-sq)/2,(PH.height-sq)/2,sq,sq,W/2-pr,cy-pr,2*pr,2*pr);x.restore();x.strokeStyle=th===1?"#fff":K.gold;x.lineWidth=th===1?12:5;x.beginPath();x.arc(W/2,cy,pr+10,0,6.3);x.stroke();cur=cy+pr+50}
   x.globalAlpha=1;
-  var items=[],host=v.host||"Your names",ttl=v.title||S.title||"Your celebration",dt=v.date||S.date;
+  var items=[],host=v.host||"Your name",ttl=v.title||S.title||"Your celebration",dt=v.date||S.date;
   function I(t,s,f,w,sp,col,ls){items.push({t:t,s:s,f:f,w:w,sp:sp,col:col,ls:ls||0})}
-  if(pp===0){I("Together with their families",30,F.sf,"500",90,K.gold,F.up?3:0);I(up(host),F.hs,F.hf,F.hw,Math.round(F.hs*1.25),K.ink,F.up?6:0);I("invite you to",30,F.bf,F.bw,70,K.ink);I(up(ttl),F.ts,F.tf,F.tw,100,K.ink,F.up?4:0)}
-  else if(pp===1){I("You are cordially invited to",30,F.sf,"500",100,K.gold,F.up?3:0);I(up(ttl),Math.round(F.hs*.85),F.hf,F.hw,Math.round(F.hs*1.1),K.ink,F.up?4:0);if(v.host){I("hosted by",30,F.bf,F.bw,70,K.ink);I(up(host),F.ts,F.tf,F.tw,90,K.ink,F.up?4:0)}}
-  else if(pp>=3){var nm=host.split(/\s*(?:&|\band\b|\+)\s*/i),sz=Math.min(F.hs,100);I(nm[0].toUpperCase(),sz,F.hf,F.hw,Math.round(sz*1.2),K.gold,6);if(nm[1]){I("&",Math.round(sz*1.1),F.tf,"italic 500",Math.round(sz*1.1),K.gold);I(nm[1].toUpperCase(),sz,F.hf,F.hw,Math.round(sz*1.15),K.ink,6)}I((v.title||(S.type==="Wedding"?"are getting married":ttl)).toUpperCase(),32,F.sf,"500",90,K.ink,5);I("You are invited to celebrate",36,F.bf,"italic 500",70,K.ink)}
-  else{I("You’re invited!",72,F.tf,F.tw,110,K.gold);I(up(ttl),Math.round(F.hs*.85),F.hf,F.hw,Math.round(F.hs*1.1),K.ink,F.up?4:0);if(v.host)I("hosted by "+host,34,F.bf,F.bw,80,K.ink)}
+  if(th===0){I("YOU ARE INVITED",30,SN,"600",80,K.gold,8);I(ttl,Math.round(Math.min(F.hs,110)*.9),F.hf,F.hw,Math.round(F.hs*1.05),K.ink,F.up?4:0);if(v.host){I("HOSTED BY",26,SN,"600",70,K.gold,6);I(host.toUpperCase(),44,SN,"700",70,K.ink,6)}}
+  else if(th===1){I("LET’S CELEBRATE",30,SN,"700",70,K.gold,8);I(host.toUpperCase(),84,SN,"800",110,K.ink,4);I(ttl,50,F.tf,F.tw,80,K.gold,F.up?3:0)}
+  else if(th===2){I("Together with their families",30,F.sf,"500",90,K.gold,F.up?3:0);I(up(host),F.hs,F.hf,F.hw,Math.round(F.hs*1.25),K.ink,F.up?6:0);I("invite you to",30,F.bf,F.bw,70,K.ink);I(up(ttl),F.ts,F.tf,F.tw,100,K.ink,F.up?4:0)}
+  else{I("YOU ARE INVITED",28,SN,"600",70,K.gold,8);I(ttl.toUpperCase(),60,SN,"700",96,K.ink,4);if(v.host){I("HOSTED BY",24,SN,"600",70,K.gold,6);I(host,40,SN,"500",60,K.ink,2)}}
   items.push({rule:1,sp:60});
-  I(dt?fmtDate(dt):"Date to be announced",36,F.sf,"500",60,K.ink);
-  if(v.time)I("at "+v.time,34,F.sf,"400",56,K.ink);
+  if(dt)items.push({lock:dt,tm:v.time,sp:280});else{I("Date to be announced",36,F.sf,"500",60,K.ink);if(v.time)I(t12(v.time),34,F.sf,"400",56,K.ink)}
   if(v.venue)I(v.venue,36,F.tf,F.tw,70,K.ink);
   if(v.msg){x.font=F.bw+" 36px "+F.bf;wrap(x,v.msg,640).slice(0,4).forEach(function(l){I(l,36,F.bf,F.bw,52,K.ink)})}
   if(v.dress)I("Dress code: "+v.dress,30,F.sf,"400",70,K.gold);
   if(v.rsvp)I("RSVP "+v.rsvp,32,F.sf,"500",70,K.ink);
-  var tot=0;items.forEach(function(i){tot+=i.sp});if(PH){var kk=Math.max(.72,Math.min(1,(1290-ymin)/tot));items.forEach(function(i){i.sp=Math.round(i.sp*kk)});tot=0;items.forEach(function(i){tot+=i.sp})}var y=PH?Math.max(ymin,(ymin+1290-tot)/2):Math.max(400,(H-tot)/2+90),q=clamp(p/.75),n=items.length;
+  var tot=0;items.forEach(function(i){tot+=i.sp});if(tot>B-cur){var kk=Math.max(.7,(B-cur)/tot);items.forEach(function(i){i.sp=Math.round(i.sp*kk)});tot=0;items.forEach(function(i){tot+=i.sp})}
+  var y=Math.max(cur,(cur+B-tot)/2),q=clamp(p/.75),n=items.length,ls=function(k){if("letterSpacing" in x)x.letterSpacing=k+"px"};
   items.forEach(function(it,i){var a=clamp(q*(n+1)-i);if(p>=1)a=1;y+=it.sp;if(a<=0)return;x.globalAlpha=a;var yy=y+(1-a)*24;
     if(it.rule){x.strokeStyle=K.gold;x.lineWidth=2;x.beginPath();x.moveTo(W/2-150,yy-20);x.lineTo(W/2-18,yy-20);x.moveTo(W/2+18,yy-20);x.lineTo(W/2+150,yy-20);x.stroke();x.fillStyle=K.gold;x.save();x.translate(W/2,yy-20);x.rotate(Math.PI/4);x.fillRect(-7,-7,14,14);x.restore();return}
-    if("letterSpacing" in x)x.letterSpacing=it.ls+"px";
-    var s2=it.s;x.font=it.w+" "+s2+"px "+it.f;while(x.measureText(it.t).width>700&&s2>24){s2-=4;x.font=it.w+" "+s2+"px "+it.f}
+    if(it.lock){var P=it.lock.split("-"),dd=new Date(+P[0],+P[1]-1,+P[2]),L=function(o){return dd.toLocaleDateString("en-GB",o).toUpperCase()},nf=(th===1||th===3)?SN:FM[0].hf;
+      x.fillStyle=K.gold;x.font="600 32px "+SN;ls(10);x.fillText(L({weekday:"long"}),W/2+5,yy-232);
+      x.fillStyle=K.ink;x.font="600 38px "+SN;ls(8);x.fillText(L({month:"short"}).replace(".",""),W/2-225,yy-110);x.fillText(String(dd.getFullYear()),W/2+225,yy-110);
+      ls(0);x.font="700 150px "+nf;x.fillText(String(dd.getDate()),W/2,yy-68);
+      x.strokeStyle=K.gold;x.lineWidth=2;x.beginPath();[-125,125].forEach(function(dx){x.moveTo(W/2+dx,yy-190);x.lineTo(W/2+dx,yy-60)});x.stroke();
+      if(it.tm){x.fillStyle=K.gold;x.font="500 38px "+SN;ls(6);x.fillText(t12(it.tm),W/2+3,yy-4)}ls(0);return}
+    ls(it.ls);var s2=it.s;x.font=it.w+" "+s2+"px "+it.f;while(x.measureText(it.t).width>(th===2?580:700)&&s2>24){s2-=4;x.font=it.w+" "+s2+"px "+it.f}
     x.fillStyle=it.col;x.fillText(it.t,W/2+(it.ls?it.ls/2:0),yy)});
-  if("letterSpacing" in x)x.letterSpacing="0px";x.globalAlpha=1}
-var drawT;function drawCv(){var c=document.getElementById("cv");if(c)fontsReady().then(function(){drawInvite(c,1);var PD=[[0,1],[3,0],[4,2],[5,0],[6,1]],iv=S.inv,oc=iv.c,of=iv.fs;for(var i=0;i<5;i++){var t=document.getElementById("th"+i);if(t){iv.c=PD[i][0];iv.fs=PD[i][1];var big=document.createElement("canvas");drawInvite(big,1,i);t.getContext("2d").drawImage(big,0,0,160,222)}}iv.c=oc;iv.fs=of})}
+  ls(0);x.globalAlpha=1}
+var drawT;function drawCv(){var c=document.getElementById("cv");if(c)fontsReady().then(function(){drawInvite(c,1);var iv=S.inv,oc=iv.c,of=iv.fs;for(var i=0;i<4;i++){var t=document.getElementById("th"+i);if(t){iv.c=TH[i].c;iv.fs=TH[i].fs;var big=document.createElement("canvas");drawInvite(big,1,i);t.getContext("2d").drawImage(big,0,0,240,333)}}iv.c=oc;iv.fs=of})}
 
 /* ---------- paper sheets ---------- */
 function secData(id){
@@ -673,9 +704,12 @@ document.addEventListener("click",function(ev){
   else if(a==="addg"){var g=val("gn");if(!g){f("gn");return}S.guests.push({n:g,s:0,p:val("gp"),tb:val("gt"),e:val("ge")})}
   else if(a==="addv"){var vn=val("vn");if(!vn){f("vn");return}S.vendors.push({n:vn,r:val("vr"),p:val("vp")})}
   else if(a==="delv"){S.vendors.splice(i,1)}
-  else if(a==="paper"){var pi=+b.dataset.v,PD=[[0,1],[3,0],[4,2],[5,0],[6,1]][pi];S.inv.paper=pi;S.inv.c=PD[0];S.inv.fs=PD[1]}
+  else if(a==="theme"){var ti=+b.dataset.v;S.inv.th=ti;S.inv.c=TH[ti].c;S.inv.fs=TH[ti].fs}
+  else if(a==="istep"){istep=+b.dataset.v}
+  else if(a==="gflt"){gf=+b.dataset.v}
+  else if(a==="setg"){S.guests[i].s=+b.dataset.v;if(S.guests[i].s===1)burst(ev.clientX,ev.clientY)}
   else if(a==="fs"){S.inv.fs=+b.dataset.v}
-  else if(a==="stk"){var sk=S.inv.stk||[],ix=sk.indexOf(b.dataset.v);if(ix>-1)sk.splice(ix,1);else if(sk.length<6)sk.push(b.dataset.v);S.inv.stk=sk}
+  else if(a==="stk"){var sk=S.inv.stk||[],ix=sk.indexOf(b.dataset.v);if(ix>-1)sk.splice(ix,1);else if(sk.length<4)sk.push(b.dataset.v);S.inv.stk=sk}
   else if(a==="sugg"){var r=sugg().filter(function(x){return x[0]===b.dataset.v})[0];if(r){var dd="";if(S.date){var q=S.date.split("-"),z=new Date(+q[0],+q[1]-1,+q[2]-r[1]);dd=ymd(z.getFullYear(),z.getMonth(),z.getDate())}S.tasks.push({k:r[0],o:"",p:"",d:dd,pr:r[2]||"Medium",n:"",x:0})}}
   else if(a==="newtask"){ask("New task",[["Task",""],["Assigned to (name)",""],["Phone","","tel"],["Due date","","date"],["Priority","Medium","select",["High","Medium","Low"]],["Notes",""]],function(v){if(v[0].trim())S.tasks.push({k:v[0].trim(),o:v[1].trim(),p:v[2].trim(),d:v[3],pr:v[4],n:v[5].trim(),x:0})});return}
   else if(a==="bsugg"){var nm=b.dataset.v;ask("Add expense",[["Item",nm],["Total cost","","number"],["Paid so far","0","number"]],function(v){var t=parseFloat(v[1])||0,pd=parseFloat(v[2])||0;S.exp.push({v:v[0].trim()||nm,t:t,p:Math.min(pd,t)})});return}
